@@ -1,0 +1,7 @@
+bip-utils==2.10.0
+cryptography==46.0.3
+pyfiglet==1.0.4
+questionary==2.1.1
+requests==2.32.5
+rich==14.2.0
+substrate-interface==1.7.11
