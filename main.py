@@ -3,7 +3,6 @@ import time
 import json
 import importlib
 import pkgutil
-import sys
 import inspect
 from datetime import datetime
 import questionary
@@ -51,7 +50,7 @@ def load_networks():
             if hasattr(module, 'NetworkGenerator'):
                 networks[module.NetworkGenerator.NAME] = module.NetworkGenerator
         except Exception as e:
-            pass  # Молча игнорируем битые модули, чтобы не засорять старт
+            pass
     return networks
 
 
@@ -156,7 +155,7 @@ def run_generator():
 
         for _ in range(count):
             try:
-                # 1. ГЕНЕРАЦИЯ МНЕМОНИКИ (ЭТО БЫЛО УДАЛЕНО, Я ВЕРНУЛ)
+                # 1. ГЕНЕРАЦИЯ МНЕМОНИКИ
                 mnemonic = Bip39MnemonicGenerator().FromWordsNumber(bip_words_enum)
                 seed_bytes = Bip39SeedGenerator(mnemonic).Generate(passphrase)
 
@@ -185,7 +184,7 @@ def run_generator():
 
                 if "error" in w_keys: continue
 
-                # 3. СОХРАНЕНИЕ (ТЕПЕРЬ НА ПРАВИЛЬНОМ ОТСТУПЕ)
+                # 3. СОХРАНЕНИЕ
                 entry = {
                     "network": coin_symbol,
                     "address": w_keys.get("address"),
@@ -199,7 +198,6 @@ def run_generator():
                 wallets_data.append(entry)
                 progress.advance(task)
             except Exception as e:
-                # Если что-то сломалось, не падаем, а идем дальше
                 pass
 
     if not wallets_data:

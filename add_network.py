@@ -1,7 +1,5 @@
 import os
 import questionary
-from rich.console import Console
-from rich.panel import Panel
 
 # Подключаем общие стили
 import ui_manager
@@ -10,10 +8,7 @@ from ui_manager import print_success, print_error, print_info
 # Импортируем базу знаний
 from bip_utils import Bip44Coins
 
-console = Console()
-TEMP_LIST_FILE = "supported_coins_list.txt"
-
-# --- ШАБЛОНЫ (Оставляем как есть, но можно добавить комментарии) ---
+# --- ШАБЛОНЫ ---
 STANDARD_TEMPLATE = """from bip_utils import {bip_import}, {coins_import}, Bip44Changes
 
 class NetworkGenerator:
@@ -90,14 +85,6 @@ def get_coin_list():
     return sorted(coins)
 
 
-def cleanup():
-    if os.path.exists(TEMP_LIST_FILE):
-        try:
-            os.remove(TEMP_LIST_FILE)
-        except:
-            pass
-
-
 def save_file(filename, content):
     if not os.path.exists("networks"):
         os.makedirs("networks")
@@ -167,7 +154,6 @@ def run_custom_mode(default_name="My Custom Chain", default_ticker="MYCHAIN"):
 
 def run_search_mode():
     available_coins = get_coin_list()
-    # Создаем временный файл для автокомплита (если нужен старым либам), но questionary может работать и без него
 
     print_info("Начните вводить название (Tron, Doge)...")
     user_input = questionary.autocomplete(
@@ -203,7 +189,6 @@ def run_search_mode():
 
 
 def main():
-    # Это теперь функция запуска Wizard, а не отдельный скрипт
     while True:
         action = questionary.select(
             "Wizard добавления сетей:",
@@ -212,8 +197,8 @@ def main():
         ).ask()
 
         if not action or "Назад" in action:
-            cleanup()
-            return  # ПРОСТО ВОЗВРАЩАЕМ УПРАВЛЕНИЕ
+            # Убран вызов cleanup()
+            return
 
         elif "Выбор" in action:
             run_search_mode()

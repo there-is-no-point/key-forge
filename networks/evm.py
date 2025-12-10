@@ -6,10 +6,7 @@ class NetworkGenerator:
     SYMBOL = "ETH"
 
     @staticmethod
-    def generate(seed_bytes, config=None):
-        # config=None нужен для совместимости с новым ядром,
-        # даже если настроек пока нет.
-
+    def generate(seed_bytes):
         bip_obj = Bip44.FromSeed(seed_bytes, Bip44Coins.ETHEREUM)
         acc_obj = bip_obj.Purpose().Coin().Account(0).Change(Bip44Changes.CHAIN_EXT).AddressIndex(0)
 

@@ -6,7 +6,7 @@ class NetworkGenerator:
     SYMBOL = "SOL"
 
     @staticmethod
-    def generate(seed_bytes, config=None):
+    def generate(seed_bytes):
         bip_obj = Bip44.FromSeed(seed_bytes, Bip44Coins.SOLANA)
         acc_obj = bip_obj.Purpose().Coin().Account(0).Change(Bip44Changes.CHAIN_EXT)
 
